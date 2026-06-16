@@ -383,6 +383,11 @@ public class Monkey {
     private long mProfilePeriod = -1;
 
     /**
+     * Proxy server port for U2 connection
+     * */
+    private int mU2ProxyPort = 8090;
+
+    /**
      * Monkey test end time
      */
     private long mEndTime;
@@ -814,7 +819,7 @@ public class Monkey {
                 AiClient.loadResMapping(mMappingFilePath);
             }
 
-            mEventSource = new MonkeySourceApeU2(mRandom, mMainApps, mThrottle, mRandomizeThrottle, mPermissionTargetSystem, mOutputDirectory, mProfilePeriod);
+            mEventSource = new MonkeySourceApeU2(mRandom, mMainApps, mThrottle, mRandomizeThrottle, mPermissionTargetSystem, mOutputDirectory, mProfilePeriod, mU2ProxyPort);
             mEventSource.setVerbose(mVerbose);
 
             // grant all permissions required, enabled by default
@@ -1049,6 +1054,9 @@ public class Monkey {
                         break;
                     case "--profile-period":
                         mProfilePeriod = nextOptionLong("Sampling period");
+                        break;
+                    case "--u2-proxy-port":
+                        mU2ProxyPort = (int) nextOptionLong("U2 Proxy Port");
                         break;
                     case "--pct-touch": {
                         int i = MonkeySourceRandom.FACTOR_TOUCH;

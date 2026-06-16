@@ -248,7 +248,7 @@ public class MonkeySourceApeU2 implements MonkeyEventSource {
 
     public MonkeySourceApeU2(Random random, List<ComponentName> MainApps,
                                  long throttle, boolean randomizeThrottle, boolean permissionTargetSystem,
-                                 File outputDirectory, long profilePeriod){
+                                 File outputDirectory, long profilePeriod, int proxyPort){
 
         mRandom = random;
         mMainApps = MainApps;
@@ -270,10 +270,10 @@ public class MonkeySourceApeU2 implements MonkeyEventSource {
         Logger.println("// device uuid is " + did);
 
         this.u2Client = U2Client.getInstance();
-        this.server = new ProxyServer(8090, u2Client, this);
+        this.server = new ProxyServer(proxyPort, u2Client, this);
         try {
             server.start(NanoHTTPD.SOCKET_READ_TIMEOUT, false);
-            Logger.println("[MonkeySourceApeU2] proxyServer started. Listening tcp:8090");
+            Logger.println("[MonkeySourceApeU2] proxyServer started. Listening tcp:" + proxyPort);
         } catch (IOException e) {
             Logger.println("[MonkeySourceApeU2] Error when trying to start the proxy server：" + e.getMessage());
             e.printStackTrace();
